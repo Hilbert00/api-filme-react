@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import "./styles.css";
 
 const Movie = () => {
     const { id } = useParams();
@@ -10,9 +9,7 @@ const Movie = () => {
     const [movie, setMovie] = useState([]);
     const KEY = process.env.REACT_APP_KEY;
     useEffect(() => {
-        fetch(
-            `https://api.themoviedb.org/3/movie/popular?api_key=${KEY}&language=pt-BR`
-        )
+        fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${KEY}&language=pt-BR`)
             .then((response) => response.json())
             .then((data) => {
                 const res = data.results;
@@ -25,27 +22,37 @@ const Movie = () => {
     }, []);
 
     return (
-        <div>
-            <nav>
-                <h1>Movie</h1>
-            </nav>
-            <img
-                className="img_movie"
-                src={`${imagePath}${movie.poster_path}`}
-                alt="{movie.title}"
-            />
-            <div className="container">
-                <h1>{movie.title}</h1>
-                <h3>Data de lançamento: {movie.release_date}</h3>
-                <div className="descricao">
-                    <h4>Descrição: </h4>
-                    <p className="movie-desc">{movie.overview}</p>
-                </div>
-                <Link to="/">
-                    <button className="link_button">Voltar</button>
+        <>
+            <nav className="relative m-10">
+                <h1 className="text-5xl font-bold">{movie.title}</h1>
+                <Link to="/" className="absolute top-0 right-0">
+                    <button className="rounded-md bg-[#383838] py-1 px-12 text-3xl">Catálogo</button>
                 </Link>
+            </nav>
+            <div className="max-w-[95%] mx-auto flex justify-between gap-10">
+                <img className="rounded-md" src={`${imagePath}${movie.poster_path}`} alt={movie.title} />
+                <div className="flex-1">
+                    <h3 className="text-3xl font-medium mb-8">
+                        Título original: <span className="font-normal">{movie.original_title}</span>
+                    </h3>
+
+                    <h3 className="text-3xl font-medium mb-8">
+                        Data de lançamento: <span className="font-normal">{movie.release_date}</span>
+                    </h3>
+
+                    <h3 className="text-3xl font-medium mb-8">
+                        Nota média: <span className="font-normal">{movie.vote_average}</span>
+                    </h3>
+
+                    {movie.overview ? (
+                        <div className="descricao flex flex-col gap-3">
+                            <h3 className="text-3xl font-medium">Descrição: </h3>
+                            <p className="text-2xl">{movie.overview}</p>
+                        </div>
+                    ) : null}
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 
