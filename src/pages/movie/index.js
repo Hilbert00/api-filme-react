@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import Container from "../../components/container";
 
 const Movie = () => {
     const { id } = useParams();
@@ -29,7 +29,7 @@ const Movie = () => {
                     <button className="rounded-md bg-[#383838] py-1 px-12 text-3xl">Catálogo</button>
                 </Link>
             </nav>
-            <div className="max-w-[95%] mx-auto flex justify-between gap-10">
+            <Container className="flex justify-between gap-10">
                 <img className="rounded-md" src={`${imagePath}${movie.poster_path}`} alt={movie.title} />
                 <div className="flex-1">
                     <h3 className="text-3xl font-medium mb-8">
@@ -51,7 +51,7 @@ const Movie = () => {
                         </div>
                     ) : null}
                 </div>
-            </div>
+            </Container>
         </>
     );
 };

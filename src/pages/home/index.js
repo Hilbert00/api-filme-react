@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import Container from "../../components/container";
+import Card from "../../components/card";
 
 function Home() {
-    const imagePath = "https://image.tmdb.org/t/p/w500";
-
     const KEY = process.env.REACT_APP_KEY;
 
     const [title, setTitle] = useState("");
@@ -51,34 +50,16 @@ function Home() {
     }, [title, wait, KEY, current, movies.length, writing]);
 
     return (
-        <div className="max-w-[95%] mx-auto">
+        <Container>
             <h1 className="text-5xl sm:text-7xl font-bold text-center my-10 uppercase h-20 flex items-center px-3 justify-center">
                 {title}
             </h1>
             <ul className="lg:grid-cols-5 gap-5 my-10 flex flex-col sm:grid sm:grid-cols-3">
-                {movies.map((movie) => {
-                    return (
-                        <li
-                            className="group sm:hover:scale-105 hover:scale-110 transition-all duration-500 relative rounded-md overflow-hidden flex justify-center items-center"
-                            key={movie.id}
-                        >
-                            <img
-                                className="group-hover:opacity-30 transition-all duration-300"
-                                src={`${imagePath}${movie.poster_path}`}
-                                alt={movie.title}
-                            />
-                            <div className="group-hover:opacity-100 w-full px-3 opacity-0 transition-all duration-300 absolute flex flex-col gap-5 items-center">
-                                <span className="text-2xl font-semibold text-center">{movie.title}</span>
-
-                                <Link to={`/${movie.id}`}>
-                                    <button className="underline">Detalhes</button>
-                                </Link>
-                            </div>
-                        </li>
-                    );
-                })}
+                {movies.map((movie) => (
+                    <Card id={movie.id} poster={movie.poster_path} title={movie.title} key={movie.id}></Card>
+                ))}
             </ul>
-        </div>
+        </Container>
     );
 }
 
