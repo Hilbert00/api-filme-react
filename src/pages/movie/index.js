@@ -22,16 +22,16 @@ const Movie = () => {
     }, []);
 
     return (
-        <>
-            <nav className="relative m-10">
+        <Container className="flex justify-between gap-10 flex-col">
+            <nav className="mt-10 flex justify-between sm:flex-row flex-col gap-5">
                 <h1 className="text-5xl font-bold">{movie.title}</h1>
-                <Link to="/" className="absolute top-0 right-0">
-                    <button className="rounded-md bg-[#383838] py-1 px-12 text-3xl">Catálogo</button>
+                <Link to="/">
+                    <button className="rounded-md bg-[#383838] py-1 px-12 text-3xl w-full sm:w-auto">Catálogo</button>
                 </Link>
             </nav>
-            <Container className="flex justify-between gap-10">
+            <div className="flex justify-between gap-10 flex-col sm:flex-row">
                 <img className="rounded-md" src={`${imagePath}${movie.poster_path}`} alt={movie.title} />
-                <div className="flex-1">
+                <div className="flex-1 sm:m-0 mb-10">
                     <h3 className="text-3xl font-medium mb-8">
                         Título original: <span className="font-normal">{movie.original_title}</span>
                     </h3>
@@ -51,8 +51,8 @@ const Movie = () => {
                         </div>
                     ) : null}
                 </div>
-            </Container>
-        </>
+            </div>
+        </Container>
     );
 };
 
