@@ -9,20 +9,24 @@ const Movie = () => {
     const [movie, setMovie] = useState([]);
     const KEY = process.env.REACT_APP_KEY;
     useEffect(() => {
-        fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${KEY}&language=pt-BR`)
+        fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${KEY}&language=pt-BR`)
             .then((response) => response.json())
             .then((data) => {
-                const res = data.results;
-                let filme = res.find((key) => {
-                    // eslint-disable-next-line
-                    return key.id == id;
-                });
-                setMovie(filme);
-            }); // eslint-disable-next-line
+                fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${KEY}&language=pt-BR`)
+                .then((response) => response.json())
+                .then((result) => {
+                    const videoUrl = result.results.find((e) => e.site.toLowerCase() === "youtube")?.key;
+
+                    const filme = { ...data, youtube: videoUrl }
+
+                    console.log(filme)
+                    setMovie(filme);
+                })
+            });
     }, []);
 
     return (
-        <Container className="flex justify-between gap-10 flex-col">
+        <Container className="flex justify-between gap-10 flex-col mb-10">
             <nav className="mt-10 flex justify-between sm:flex-row flex-col gap-5">
                 <h1 className="text-5xl font-bold">{movie.title}</h1>
                 <Link to="/">
@@ -45,9 +49,16 @@ const Movie = () => {
                     </h3>
 
                     {movie.overview ? (
-                        <div className="descricao flex flex-col gap-3">
+                        <div className="flex flex-col gap-3 mb-8">
                             <h3 className="text-3xl font-medium">Descrição: </h3>
                             <p className="text-2xl">{movie.overview}</p>
+                        </div>
+                    ) : null}
+
+                    {movie.youtube ? (
+                        <div className="flex flex-col gap-3">
+                            <h3 className="text-3xl font-medium">Trailer: </h3>
+                            <iframe className="h-60 sm:h-[400px] sm:w-[700px]" src={`https://www.youtube.com/embed/${movie.youtube}`} />
                         </div>
                     ) : null}
                 </div>
